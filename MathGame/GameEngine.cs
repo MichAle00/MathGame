@@ -1,16 +1,20 @@
 ﻿
 using MathGame.Models;
+using System.Diagnostics;
 
 namespace MathGame
 {
     internal class GameEngine
     {
-        internal void AdditionGame(string message, string difficulty)
+        internal void AdditionGame(string message, string difficulty, int tries)
         {
             int number1, number2;
             int score = 0;
 
-            for (int i = 0; i < 5; i++)
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            for (int i = 0; i < tries; i++)
             {
                 Console.Clear();
                 Console.WriteLine(message);
@@ -34,22 +38,27 @@ namespace MathGame
 
                 }
 
-                if (i == 4)
+                if (i == (tries - 1))
                 {
-                    Console.WriteLine($"Game over. Your final score was {score}/5. Press any key to go back to the menu");
+                    stopwatch.Stop();
+                    TimeSpan timeSpan = stopwatch.Elapsed;
+                    Console.WriteLine($"Game over. Your final score was {score}/{tries}. You took {Convert.ToInt32(timeSpan.TotalSeconds)}s to complete the game. Press any key to go back to the menu");
                     Console.ReadLine();
                 }
             }
 
-            Helpers.AddToHistory(score, GameType.Addition, Helpers.GetDifficultyLevel(difficulty));
+            Helpers.AddToHistory(score, GameType.Addition, Helpers.GetDifficultyLevel(difficulty), tries);
         }
 
-        internal void SubtractionGame(string message, string difficulty)
+        internal void SubtractionGame(string message, string difficulty, int tries)
         {
             int number1, number2;
             int score = 0;
 
-            for (int i = 0; i < 5; i++)
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            for (int i = 0; i < tries; i++)
             {
                 Console.Clear();
                 Console.WriteLine(message);
@@ -73,22 +82,27 @@ namespace MathGame
                     Console.ReadLine();
                 }
 
-                if (i == 4)
+                if (i == (tries - 1))
                 {
-                    Console.WriteLine($"Game over. Your final score was {score}/5. Press any key to go back to the menu");
+                    stopwatch.Stop();
+                    TimeSpan timeSpan = stopwatch.Elapsed;
+                    Console.WriteLine($"Game over. Your final score was {score}/{tries}. You took {Convert.ToInt32(timeSpan.TotalSeconds)}s to complete the game. Press any key to go back to the menu");
                     Console.ReadLine();
                 }
             }
 
-            Helpers.AddToHistory(score, GameType.Subtraction, DifficultyLevel.Easy);
+            Helpers.AddToHistory(score, GameType.Subtraction, Helpers.GetDifficultyLevel(difficulty), tries);
         }
 
-        internal void MultiplicationGame(string message, string difficulty)
+        internal void MultiplicationGame(string message, string difficulty, int tries)
         {
             int number1, number2;
             int score = 0;
 
-            for (int i = 0; i < 5; i++)
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            for (int i = 0; i < tries; i++)
             {
                 Console.Clear();
                 Console.WriteLine(message);
@@ -112,21 +126,25 @@ namespace MathGame
                     Console.ReadLine();
                 }
 
-                if (i == 4)
+                if (i == (tries - 1))
                 {
-                    Console.WriteLine($"Game over. Your final score was {score}/5. Press any key to go back to the menu");
+                    stopwatch.Stop();
+                    TimeSpan timeSpan = stopwatch.Elapsed;
+                    Console.WriteLine($"Game over. Your final score was {score}/{tries}. You took {Convert.ToInt32(timeSpan.TotalSeconds)}s to complete the game. Press any key to go back to the menu");
                     Console.ReadLine();
                 }
             }
 
-            Helpers.AddToHistory(score, GameType.Multiplication, DifficultyLevel.Easy);
+            Helpers.AddToHistory(score, GameType.Multiplication, Helpers.GetDifficultyLevel(difficulty), tries);
         }
 
-        internal void DivisionGame(string message, string difficulty)
+        internal void DivisionGame(string message, string difficulty, int tries)
         {
             int score = 0;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < tries; i++)
             {
                 Console.Clear();
                 Console.WriteLine(message);
@@ -148,15 +166,50 @@ namespace MathGame
                     Console.ReadLine();
                 }
 
-                if (i == 4)
+                if (i == (tries - 1))
                 {
-                    Console.WriteLine($"Game over. Your final score was {score}/5. Press any key to go back to the menu");
+                    stopwatch.Stop();
+                    TimeSpan timeSpan = stopwatch.Elapsed;
+                    Console.WriteLine($"Game over. Your final score was {score}/{tries}. You took {Convert.ToInt32(timeSpan.TotalSeconds)}s to complete the game. Press any key to go back to the menu");
                     Console.ReadLine();
                 }
             }
 
-            Helpers.AddToHistory(score, GameType.Division, DifficultyLevel.Easy);
+            Helpers.AddToHistory(score, GameType.Division, Helpers.GetDifficultyLevel(difficulty), tries);
         }
 
+        internal void RandomGame()
+        {
+            Random random = new Random();
+            int ran = random.Next(1, 5);
+            string? diff;
+            int times;
+
+            switch (ran)
+            {
+                case 1:
+                    diff = Menu.DifficultyMenu();
+                    times = Menu.AmountOfGames();
+                    AdditionGame("Addition Game", diff, times);
+                    break;
+                case 2:
+                    diff = Menu.DifficultyMenu();
+                    times = Menu.AmountOfGames();
+                    SubtractionGame("Subtraction Game", diff, times);
+                    break; 
+                case 3:
+                    diff = Menu.DifficultyMenu();
+                    times = Menu.AmountOfGames();
+                    MultiplicationGame("Multiplication Games", diff, times);
+                    break;
+                case 4:
+                    diff = Menu.DifficultyMenu();
+                    times = Menu.AmountOfGames();
+                    DivisionGame("Division Game", diff, times);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

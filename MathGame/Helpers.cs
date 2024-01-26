@@ -1,5 +1,6 @@
 ﻿
 using MathGame.Models;
+using System.Diagnostics;
 
 namespace MathGame
 {
@@ -13,7 +14,7 @@ namespace MathGame
             Console.WriteLine("--------------------------");
             foreach (var game in games)
             {
-                Console.WriteLine($"{game.Date} - {game.Type}: {game.Score}pts - {game.Difficulty}");
+                Console.WriteLine($"{game.Date} - {game.Type}: {game.Score}/{game.TotalQuestions}pts - {game.Difficulty}");
             }
 
             Console.WriteLine("--------------------------");
@@ -38,7 +39,7 @@ namespace MathGame
             return result;
         }
 
-        internal static void AddToHistory(int gameScore, GameType gameType, DifficultyLevel gameDifficulty)
+        internal static void AddToHistory(int gameScore, GameType gameType, DifficultyLevel gameDifficulty, int times)
         {
             games.Add(new Game
             {
@@ -46,6 +47,7 @@ namespace MathGame
                 Score = gameScore,
                 Type = gameType,
                 Difficulty = gameDifficulty,
+                TotalQuestions = times,
             });
         }
 
@@ -131,5 +133,6 @@ namespace MathGame
 
             return level;
         }
+
     }
 }

@@ -8,7 +8,9 @@ internal class Game
 
     public GameType Type { get; set; }
 
-    public DifficultyLevel Difficulty {  get; set; }
+    public DifficultyLevel Difficulty { get; set; }
+
+    public int TotalQuestions { get; set; }
 
 }
 
